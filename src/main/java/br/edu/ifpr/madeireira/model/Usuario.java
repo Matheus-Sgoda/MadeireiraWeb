@@ -9,7 +9,6 @@ public class Usuario {
     private String endereco;
     private String telefone;
     private String senha;
-    private String cpfCnpj;
     private Date dataCadastro;
 
     public Usuario(){
@@ -52,9 +51,6 @@ public class Usuario {
 
     public String getSenha() { return senha; }
     public void setSenha(String senha) { this.senha = senha; }
-
-    public String getCpfCnpj() { return cpfCnpj; }
-    public void setCpfCnpj(String cpfCnpj) { this.cpfCnpj = cpfCnpj; }
 
     public Date getDataCadastro() { return dataCadastro; }
     public void setDataCadastro(Date dataCadastro) { this.dataCadastro = dataCadastro; }

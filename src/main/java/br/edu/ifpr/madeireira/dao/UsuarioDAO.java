@@ -16,7 +16,7 @@ public class UsuarioDAO {
     }
 
     public void inserir(Usuario usuario) {
-        String sql = "INSERT INTO usuario (nome, email, endereco, telefone, senha, cpfCnpj) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO usuario (nome, email, endereco, telefone, senha) VALUES (?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement stmt = conexao.prepareStatement(sql);
@@ -25,7 +25,6 @@ public class UsuarioDAO {
             stmt.setString(3, usuario.getEndereco());
             stmt.setString(4, usuario.getTelefone());
             stmt.setString(5, usuario.getSenha());
-            stmt.setString(6, usuario.getCpfCnpj());
 
             stmt.execute();
             stmt.close();
@@ -40,9 +39,9 @@ public class UsuarioDAO {
 
         try {
             PreparedStatement stmt = conexao.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery(); // O "Cursor" do Java Web chama ResultSet
+            ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()) { // Enquanto tiver próxima linha (moveToNext)
+            while (rs.next()) {
                 Usuario usuario = resultSetParaUsuario(rs);
                 listaUsuarios.add(usuario);
             }
@@ -63,7 +62,7 @@ public class UsuarioDAO {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) { // moveToFirst
+            if (rs.next()) {
                 usuario = resultSetParaUsuario(rs);
             }
             rs.close();
@@ -95,7 +94,7 @@ public class UsuarioDAO {
     }
 
     public void atualizar(Usuario usuario) {
-        String sql = "UPDATE usuario SET nome=?, email=?, endereco=?, telefone=?, senha=?, cpfCnpj=? WHERE id=?";
+        String sql = "UPDATE usuario SET nome=?, email=?, endereco=?, telefone=?, senha=? WHERE id=?";
 
         try {
             PreparedStatement stmt = conexao.prepareStatement(sql);
@@ -104,17 +103,15 @@ public class UsuarioDAO {
             stmt.setString(3, usuario.getEndereco());
             stmt.setString(4, usuario.getTelefone());
             stmt.setString(5, usuario.getSenha());
-            stmt.setString(6, usuario.getCpfCnpj());
-            stmt.setInt(7, usuario.getId()); // O WHERE id=?
+            stmt.setInt(6, usuario.getId());
 
-            stmt.executeUpdate(); // Retorna o número de linhas afetadas
+            stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao atualizar usuário: " + e.getMessage());
         }
     }
 
-    // DELETE
     public void excluir(int id) {
         String sql = "DELETE FROM usuario WHERE id = ?";
         try {
@@ -127,7 +124,6 @@ public class UsuarioDAO {
         }
     }
 
-    // LOGIN - Validar credenciais (Mantive idêntico ao Android na lógica)
     public Usuario validarLogin(String email, String senha) {
         Usuario usuario = null;
         String sql = "SELECT * FROM usuario WHERE email = ? AND senha = ?";
@@ -149,7 +145,6 @@ public class UsuarioDAO {
         return usuario;
     }
 
-    // Método auxiliar (Igual ao seu cursorParaUsuario, mas usando ResultSet)
     private Usuario resultSetParaUsuario(ResultSet rs) throws SQLException {
         Usuario usuario = new Usuario();
         usuario.setId(rs.getInt("id"));
@@ -158,9 +153,7 @@ public class UsuarioDAO {
         usuario.setEndereco(rs.getString("endereco"));
         usuario.setTelefone(rs.getString("telefone"));
         usuario.setSenha(rs.getString("senha"));
-        usuario.setCpfCnpj(rs.getString("cpfCnpj"));
 
-        // Conversão de Data do MySQL (Timestamp) para java.util.Date
         Timestamp timestamp = rs.getTimestamp("dataCadastro");
         if (timestamp != null) {
             usuario.setDataCadastro(new java.util.Date(timestamp.getTime()));

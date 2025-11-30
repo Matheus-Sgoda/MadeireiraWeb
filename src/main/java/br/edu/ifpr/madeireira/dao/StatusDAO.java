@@ -32,4 +32,65 @@ public class StatusDAO {
         }
         return lista;
     }
+
+    public Status buscarPorId(int id) {
+        Status status = null;
+        String sql = "SELECT * FROM status WHERE id = ?";
+
+        try {
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                status = new Status();
+                status.setId(rs.getInt("id"));
+                status.setDescricao(rs.getString("descricao"));
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar status por ID: " + e.getMessage());
+        }
+        return status;
+    }
+
+    public int atualizar(Status status) {
+        String sql = "UPDATE status SET descricao = ? WHERE id = ?";
+        int linhasAfetadas = 0;
+        try {
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            stmt.setString(1, status.getDescricao());
+            stmt.setInt(2, status.getId());
+            linhasAfetadas = stmt.executeUpdate();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar status: " + e.getMessage());
+        }
+        return linhasAfetadas;
+    }
+
+    public void inserir(Status status) {
+        String sql = "INSERT INTO status (descricao) VALUES (?)";
+        try {
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            stmt.setString(1, status.getDescricao());
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao inserir status: " + e.getMessage());
+        }
+    }
+
+    public void excluir(int id) {
+        String sql = "DELETE FROM status WHERE id = ?";
+        try {
+            PreparedStatement stmt = conexao.prepareStatement(sql);
+            stmt.setInt(1, id);
+            stmt.execute();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao excluir status: " + e.getMessage());
+        }
+    }
 }
