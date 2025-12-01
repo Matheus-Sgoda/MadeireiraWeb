@@ -16,7 +16,7 @@ public class ProdutoDAO {
     }
 
     public void inserir(Produto produto) {
-        String sql = "INSERT INTO produto (nome, descricao, fkCategoria, fkStatus, quantidade, unidadeMedida, preco) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO produto (nome, descricao, fkCategoria, fkStatus, quantidade, unidadeMedida, preco, imagemUrl) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement stmt = conexao.prepareStatement(sql);
@@ -27,6 +27,7 @@ public class ProdutoDAO {
             stmt.setDouble(5, produto.getQuantidade());
             stmt.setString(6, produto.getUnidadeMedida());
             stmt.setDouble(7, produto.getPreco());
+            stmt.setString(8, produto.getImagemUrl());
 
             stmt.execute();
             stmt.close();
@@ -85,7 +86,7 @@ public class ProdutoDAO {
     }
 
     public void atualizar(Produto produto) {
-        String sql = "UPDATE produto SET nome=?, descricao=?, fkCategoria=?, fkStatus=?, quantidade=?, unidadeMedida=?, preco=? WHERE id=?";
+        String sql = "UPDATE produto SET nome=?, descricao=?, fkCategoria=?, fkStatus=?, quantidade=?, unidadeMedida=?, preco=?, imagemUrl=? WHERE id=?";
 
         try {
             PreparedStatement stmt = conexao.prepareStatement(sql);
@@ -96,7 +97,8 @@ public class ProdutoDAO {
             stmt.setDouble(5, produto.getQuantidade());
             stmt.setString(6, produto.getUnidadeMedida());
             stmt.setDouble(7, produto.getPreco());
-            stmt.setInt(8, produto.getId());
+            stmt.setString(8, produto.getImagemUrl());
+            stmt.setInt(9, produto.getId());
 
             stmt.executeUpdate();
             stmt.close();
@@ -127,6 +129,7 @@ public class ProdutoDAO {
         p.setQuantidade(rs.getDouble("quantidade"));
         p.setUnidadeMedida(rs.getString("unidadeMedida"));
         p.setPreco(rs.getDouble("preco"));
+        p.setImagemUrl(rs.getString("imagemUrl"));
 
         Timestamp timestamp = rs.getTimestamp("dataCadastro");
         if (timestamp != null) {

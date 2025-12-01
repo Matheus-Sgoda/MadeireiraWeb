@@ -9,7 +9,7 @@ public class ConexaoBanco {
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost:3306/madeireira_db";
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "1234";
 
     public static Connection getConexao() {
         try {

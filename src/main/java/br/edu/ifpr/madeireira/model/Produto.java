@@ -11,6 +11,7 @@ public class Produto {
     private String unidadeMedida;
     private double preco;
     private Date dataCadastro;
+    private String imagemUrl;
 
     private String nomeCategoria;
     private String nomeStatus;
@@ -64,6 +65,9 @@ public class Produto {
 
     public String getNomeStatus() { return nomeStatus; }
     public void setNomeStatus(String nomeStatus) { this.nomeStatus = nomeStatus; }
+
+    public String getImagemUrl() { return imagemUrl; }
+    public void setImagemUrl(String imagemUrl) { this.imagemUrl = imagemUrl; }
 
     public String getPrecoFormatado() {
         return String.format("R$ %.2f", preco);
