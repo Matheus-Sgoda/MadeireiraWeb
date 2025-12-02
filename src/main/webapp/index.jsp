@@ -9,7 +9,7 @@
 </head>
 <body>
     <jsp:include page="/WEB-INF/includes/nav.jsp" />
-    <header class="landing-hero">
+    <header class="landing-hero" style="background-image: url('<%= request.getContextPath() %>/images/imagemmadeira.jpg');">
         <div class="container hero-content">
             <h1>Madeireira, o parceiro certo para cada projeto em madeira</h1>
             <p class="hero-text">
